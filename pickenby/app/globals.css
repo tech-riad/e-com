@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Tailwind v4: design tokens live in CSS, no tailwind.config.js needed */
+@theme {
+  --font-sans: var(--font-jakarta), var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #2f5bea;
+  --color-brand-600: #2447c8;
+  --color-brand-700: #1a3bb3;
+  --color-brand-800: #16308f;
+  --color-brand-900: #0f2166;
+
+  --color-ink: #141b34;
+  --color-muted: #6b7390;
+  --color-page: #f4f5fa;
+  --color-tile: #f1f1f4;
+  --color-lavender: #ece9f5;
+
+  --color-gold: #a8730a;
+  --color-gold-soft: #f4e6c4;
+  --color-sale: #2563eb;
+  --color-sold: #16a34a;
+  --color-footer: #012e63;
+
+  --shadow-card: 0 1px 2px rgb(20 27 52 / 0.05), 0 6px 20px -8px rgb(20 27 52 / 0.12);
+  --shadow-float: 0 12px 32px -12px rgb(20 27 52 / 0.25);
+
+  --animate-slide-in: slide-in 0.5s ease-out both;
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-page text-ink antialiased; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-brand-500; }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6;
+}

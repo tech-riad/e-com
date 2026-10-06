@@ -1,0 +1,94 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": "Catalog products for top-selling / rails"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "products"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "products"
+    },
+    "seller": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "mrp": {
+      "type": "decimal"
+    },
+    "discount": {
+      "type": "integer",
+      "default": 0
+    },
+    "sold": {
+      "type": "integer",
+      "default": 0
+    },
+    "outOfStock": {
+      "type": "boolean",
+      "default": false
+    },
+    "emi": {
+      "type": "boolean",
+      "default": false
+    },
+    "badges": {
+      "type": "json"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "isTopSelling": {
+      "type": "boolean",
+      "default": false
+    },
+    "isTopPick": {
+      "type": "boolean",
+      "default": false
+    },
+    "isNewArrival": {
+      "type": "boolean",
+      "default": false
+    },
+    "isRecentSaving": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

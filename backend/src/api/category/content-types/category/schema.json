@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categories",
+  "info": {
+    "singularName": "category",
+    "pluralName": "categories",
+    "displayName": "Category",
+    "description": "Nav links, sidebar categories, circles and trending tiles"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "label",
+      "required": true
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "tv",
+        "snowflake",
+        "fridge",
+        "washer",
+        "pot",
+        "flame",
+        "oven",
+        "blender",
+        "speaker",
+        "drops",
+        "house"
+      ]
+    },
+    "tone": {
+      "type": "string"
+    },
+    "navVisible": {
+      "type": "boolean",
+      "default": true
+    },
+    "trendingSection": {
+      "type": "enumeration",
+      "enum": ["none", "large", "small"],
+      "default": "none"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category",
+      "mappedBy": "parent"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "categories"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

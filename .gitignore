@@ -1,0 +1,29 @@
+# OS / editors
+.DS_Store
+.idea/
+.vscode/*
+
+# Deps
+node_modules/
+
+# Strapi backend
+backend/.tmp/
+backend/dist/
+backend/build/
+backend/.strapi/
+backend/exports/
+backend/.env
+
+# Next.js frontend
+pickenby/.next/
+pickenby/out/
+pickenby/.env
+pickenby/.env*.local
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Logs / DB
+*.log
+*.sqlite
+*.sqlite3
