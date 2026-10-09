@@ -11,20 +11,14 @@ type BrandItem = { name: string; slug: string; image?: string };
 export function Brands({ items }: { items?: BrandItem[] }) {
   const [expanded, setExpanded] = useState(false);
 
-  // 10 manual brands always come first; the rest come from the CMS.
   const cms: BrandItem[] = items ?? [];
-  const logoOf = (slug: string) => cms.find((b) => b.slug === slug)?.image;
+  const brands: BrandItem[] = cms.length > 0
+    ? cms
+    : featuredBrands.map((name) => ({ name, slug: name.toLowerCase() }));
+  console.log("Total brands:", brands.length);
 
-  const manual: BrandItem[] = featuredBrands.map((name) => ({
-    name,
-    slug: name.toLowerCase(),
-    image: logoOf(name.toLowerCase()),
-  }));
-  const manualSlugs = new Set(manual.map((b) => b.slug));
-  const rest = cms.filter((b) => !manualSlugs.has(b.slug));
-
-  const visible = expanded ? [...manual, ...rest] : manual;
-  const hiddenCount = rest.length;
+  const visible = expanded ? brands : brands.slice(0, 10);
+  const hiddenCount = Math.max(0, brands.length - 10);
 
   return (
     <section aria-labelledby="brands" className="py-10">
