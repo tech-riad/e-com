@@ -8,6 +8,7 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { DealCard } from "@/components/ProductCard";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { BuyNowButton } from "@/components/BuyNowButton";
+import { MetaPixelEvent } from "@/components/MetaPixel";
 
 export const revalidate = 60;
 
@@ -48,6 +49,17 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <main className="pb-16">
+      <MetaPixelEvent
+        eventName="ViewContent"
+        eventKey={p.slug ?? p.id}
+        data={{
+          content_ids: [p.slug ?? p.id],
+          content_name: p.title,
+          content_type: "product",
+          value: p.price,
+          currency: "BDT",
+        }}
+      />
       <div className="container-page">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-4 text-[11px] text-muted">

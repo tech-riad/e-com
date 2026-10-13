@@ -26,6 +26,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const orderData = { ...body };
+  const attributionLimits = [
+    ["eventId", 128],
+    ["fbp", 512],
+    ["fbc", 512],
+    ["eventSourceUrl", 2048],
+  ] as const;
+  for (const [field, maxLength] of attributionLimits) {
+    const value = body[field];
+    if (typeof value !== "string" || value.length === 0 || value.length > maxLength) {
+      delete orderData[field];
+    }
+  }
+
   try {
     const res = await fetch(`${STRAPI_URL}/api/orders`, {
       method: "POST",
@@ -33,7 +47,7 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
         ...(API_TOKEN ? { Authorization: `Bearer ${API_TOKEN}` } : {}),
       },
-      body: JSON.stringify({ data: body }),
+      body: JSON.stringify({ data: orderData }),
     });
 
     if (!res.ok) {

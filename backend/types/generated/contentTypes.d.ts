@@ -577,6 +577,10 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     customerName: Schema.Attribute.String & Schema.Attribute.Required;
     division: Schema.Attribute.String;
+    eventId: Schema.Attribute.String & Schema.Attribute.Private;
+    eventSourceUrl: Schema.Attribute.String & Schema.Attribute.Private;
+    fbc: Schema.Attribute.String & Schema.Attribute.Private;
+    fbp: Schema.Attribute.String & Schema.Attribute.Private;
     items: Schema.Attribute.JSON;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &

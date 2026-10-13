@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/data";
+import { trackMetaAddToCart } from "@/components/MetaPixel";
 
 export function AddToCartButton({
   product,
@@ -17,6 +18,7 @@ export function AddToCartButton({
 
   const onClick = () => {
     addItem(product);
+    trackMetaAddToCart(product.slug ?? product.id, product.price);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1500);
   };

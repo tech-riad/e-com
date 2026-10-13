@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Zap } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/data";
+import { trackMetaAddToCart } from "@/components/MetaPixel";
 
 export function BuyNowButton({
   product,
@@ -19,6 +20,7 @@ export function BuyNowButton({
 
   const onClick = () => {
     addItem(product);
+    trackMetaAddToCart(product.slug ?? product.id, product.price);
     setRedirecting(true);
     router.push("/checkout");
   };

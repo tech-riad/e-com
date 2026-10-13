@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { taka } from "@/lib/data";
+import { getMetaOrderAttribution, MetaPixelEvent, trackMetaEvent } from "@/components/MetaPixel";
 
 const DIVISIONS = [
   "Dhaka",
@@ -57,6 +58,8 @@ export function CheckoutForm() {
       })),
     [items]
   );
+  const contentIds = items.map((item) => item.slug ?? item.id);
+  const itemCount = items.reduce((sum, item) => sum + item.qty, 0);
 
   const set = (key: keyof FormState, value: string) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -68,6 +71,7 @@ export function CheckoutForm() {
     setError(null);
 
     try {
+      const eventId = crypto.randomUUID();
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -81,6 +85,7 @@ export function CheckoutForm() {
           note: form.note.trim(),
           items: itemsPayload,
           total: subtotal,
+          ...getMetaOrderAttribution(eventId),
         }),
       });
 
@@ -93,6 +98,22 @@ export function CheckoutForm() {
 
       const json = (await res.json()) as { data?: { documentId?: string; total?: number } };
       const ref = json?.data?.documentId ?? "";
+      trackMetaEvent(
+        "Purchase",
+        {
+          currency: "BDT",
+          value: subtotal,
+          content_type: "product",
+          content_ids: contentIds,
+          contents: items.map((item) => ({
+            id: item.slug ?? item.id,
+            quantity: item.qty,
+            item_price: item.price,
+          })),
+          num_items: itemCount,
+        },
+        eventId
+      );
       clear();
       router.push(`/order-confirmation?ref=${encodeURIComponent(ref)}&total=${subtotal}`);
     } catch {
@@ -119,6 +140,18 @@ export function CheckoutForm() {
     "w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm placeholder:text-muted/70 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
 
   return (
+    <>
+    <MetaPixelEvent
+      eventName="InitiateCheckout"
+      eventKey="checkout"
+      data={{
+        content_ids: contentIds,
+        content_type: "product",
+        value: subtotal,
+        currency: "BDT",
+        num_items: itemCount,
+      }}
+    />
     <form onSubmit={onSubmit} className="grid gap-3 lg:grid-cols-[1fr_320px]">
       <div className="space-y-4 rounded-2xl bg-white p-5 shadow-card">
         <h2 className="text-sm font-extrabold tracking-tight">Delivery details</h2>
@@ -267,5 +300,6 @@ export function CheckoutForm() {
         </aside>
       </div>
     </form>
+    </>
   );
 }

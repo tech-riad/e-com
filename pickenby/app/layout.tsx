@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Plus_Jakarta_Sans, Hind_Siliguri } from "next/font/google";
 import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/lib/auth";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BottomNav } from "@/components/BottomNav";
+import { MetaPixel } from "@/components/MetaPixel";
 import { getCategories, getNavLabels, getSiteSettings } from "@/lib/cms";
 import "./globals.css";
 
@@ -22,6 +24,7 @@ const bangla = Hind_Siliguri({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const metaPixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 
 const DEFAULT_DESCRIPTION =
   "Shop air conditioners, refrigerators, washing machines, TVs and more from 100+ brands with free delivery and 0% EMI.";
@@ -76,7 +79,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" className={`${jakarta.variable} ${bangla.variable}`}>
-      <body className="font-sans">
+      <body className="font-sans" suppressHydrationWarning>
+          {metaPixelId ? (
+            <Script id="meta-pixel" strategy="beforeInteractive">
+              {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(metaPixelId)});fbq('track','PageView',{}, {eventID:crypto.randomUUID()});`}
+            </Script>
+          ) : null}
           <AuthProvider>
             <CartProvider>
               <Header nav={nav} navItems={navItems} settings={settings ?? undefined} />
@@ -85,6 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <BottomNav />
             </CartProvider>
           </AuthProvider>
+          <MetaPixel />
         </body>
     </html>
   );
