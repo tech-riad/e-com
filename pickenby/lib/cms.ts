@@ -365,6 +365,28 @@ function getBrandLogoUrl(logo: unknown): string | undefined {
   return getStrapiMediaUrl(preferredUrl) ?? getStrapiMediaUrl(logo);
 }
 
+function getMediaDimensions(media: unknown): { width: number; height: number } | undefined {
+  if (!media || typeof media !== "object" || Array.isArray(media)) return undefined;
+
+  const item = media as Record<string, unknown>;
+  const data = item.data && typeof item.data === "object"
+    ? item.data as Record<string, unknown>
+    : undefined;
+  const attributes = data?.attributes && typeof data.attributes === "object"
+    ? data.attributes as Record<string, unknown>
+    : undefined;
+
+  for (const candidate of [item, data, attributes]) {
+    const width = candidate?.width;
+    const height = candidate?.height;
+    if (typeof width === "number" && width > 0 && typeof height === "number" && height > 0) {
+      return { width, height };
+    }
+  }
+
+  return undefined;
+}
+
 export async function getBrandsWithSlugs(): Promise<{ name: string; slug: string; image?: string }[]> {
   const rows = await fetchAPI<BrandAttr>("/brands", {
     "pagination[pageSize]": 100,
@@ -467,6 +489,8 @@ export type SiteSetting = {
   whatsapp: string;
   address: string;
   logo?: string;
+  logoWidth?: number;
+  logoHeight?: number;
   favicon?: string;
   socials?: { label: string; url: string; icon?: string }[];
 };
@@ -487,6 +511,8 @@ export async function getSiteSettings(): Promise<SiteSetting | null> {
     whatsapp: row.whatsapp ?? "",
     address: row.address ?? "",
     logo: getStrapiMediaUrl(row.logo),
+    logoWidth: getMediaDimensions(row.logo)?.width,
+    logoHeight: getMediaDimensions(row.logo)?.height,
     favicon: getStrapiMediaUrl(row.favicon),
     socials: Array.isArray(row.socials)
       ? row.socials.map((s) => ({

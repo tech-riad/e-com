@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { BottomNav } from "@/components/BottomNav";
 import { MetaPixel } from "@/components/MetaPixel";
 import { getCategories, getNavLabels, getSiteSettings } from "@/lib/cms";
+import { processLogoForHeader } from "../lib/logo-image.server";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -61,6 +62,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     getCategories().catch(() => []),
     getSiteSettings().catch(() => null),
   ]);
+  const processedLogo = settings?.logo
+    ? await processLogoForHeader(settings.logo).catch(() => undefined)
+    : undefined;
+  const headerSettings = settings && processedLogo
+    ? { ...settings, logo: processedLogo.src, logoWidth: processedLogo.width, logoHeight: processedLogo.height }
+    : settings;
 
   const navItems =
     cmsCategories.length > 0
@@ -87,7 +94,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           ) : null}
           <AuthProvider>
             <CartProvider>
-              <Header nav={nav} navItems={navItems} settings={settings ?? undefined} />
+              <Header nav={nav} navItems={navItems} settings={headerSettings ?? undefined} />
               {children}
               <Footer settings={settings ?? undefined} />
               <BottomNav />

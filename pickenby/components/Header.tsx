@@ -106,13 +106,19 @@ export function Header({ nav, navItems, settings }: { nav?: string[]; navItems?:
           {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
 
-        <Link href="/" className="flex min-w-0 shrink items-center gap-1.5 text-xl font-bold tracking-tight text-brand-600">
+        <Link href="/" aria-label={siteName} className="flex shrink-0 items-center text-brand-600">
           {settings?.logo ? (
-            <Image src={settings.logo} alt={settings.siteName} width={28} height={28} className="h-7 w-auto shrink-0 object-contain" />
+            <Image
+              src={settings.logo}
+              alt=""
+              width={settings.logoWidth ?? 40}
+              height={settings.logoHeight ?? 40}
+              className="h-10 w-auto max-w-[180px] shrink-0 object-contain"
+              unoptimized
+            />
           ) : (
             <Cloud aria-hidden className="size-6 shrink-0 fill-brand-100 text-brand-500" />
           )}
-          <span className="truncate">{siteName}</span>
         </Link>
 
         <form role="search" action="/search" method="get" onSubmit={handleSearch} className="relative hidden min-w-0 flex-1 md:flex">
@@ -258,7 +264,14 @@ export function Header({ nav, navItems, settings }: { nav?: string[]; navItems?:
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-1.5 text-lg font-bold tracking-tight text-brand-600">
                 {settings?.logo ? (
-                  <Image src={settings.logo} alt={settings.siteName} width={24} height={24} className="h-6 w-auto object-contain" />
+                  <Image
+                    src={settings.logo}
+                    alt=""
+                    width={settings.logoWidth ?? 24}
+                    height={settings.logoHeight ?? 24}
+                    className="h-6 w-auto max-w-24 object-contain"
+                    unoptimized
+                  />
                 ) : (
                   <Cloud aria-hidden className="size-6 fill-brand-100 text-brand-500" />
                 )}
