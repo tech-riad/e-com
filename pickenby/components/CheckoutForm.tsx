@@ -152,8 +152,8 @@ export function CheckoutForm() {
         num_items: itemCount,
       }}
     />
-    <form onSubmit={onSubmit} className="grid gap-3 lg:grid-cols-[1fr_320px]">
-      <div className="space-y-4 rounded-2xl bg-white p-5 shadow-card">
+    <form onSubmit={onSubmit} className="grid gap-2 lg:grid-cols-[1fr_320px]">
+      <div className="space-y-3 rounded-2xl bg-white p-4 shadow-card">
         <h2 className="text-sm font-extrabold tracking-tight">Delivery details</h2>
 
         <div>
@@ -244,9 +244,9 @@ export function CheckoutForm() {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-2xl bg-white p-5 shadow-card">
+        <div className="rounded-2xl bg-white p-4 shadow-card">
           <h2 className="text-sm font-extrabold tracking-tight">Payment method</h2>
-          <div className="mt-3 space-y-2">
+          <div className="mt-2 space-y-1.5">
             {PAYMENT_METHODS.map((m) => (
               <label
                 key={m}
@@ -266,9 +266,9 @@ export function CheckoutForm() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl bg-white p-5 shadow-card">
+        <aside className="h-fit rounded-2xl bg-white p-4 shadow-card">
           <h2 className="text-sm font-extrabold tracking-tight">Order Summary</h2>
-          <dl className="mt-4 space-y-2 text-xs text-muted">
+          <dl className="mt-3 space-y-1.5 text-xs text-muted">
             <div className="flex justify-between">
               <dt>Items ({items.reduce((s, i) => s + i.qty, 0)})</dt>
               <dd className="font-semibold text-ink">{taka(subtotal)}</dd>
@@ -278,7 +278,7 @@ export function CheckoutForm() {
               <dd className="font-semibold text-ink">Free</dd>
             </div>
           </dl>
-          <div className="mt-4 flex justify-between border-t border-slate-100 pt-3 text-sm">
+          <div className="mt-3 flex justify-between border-t border-slate-100 pt-2 text-sm">
             <span className="font-bold">Total</span>
             <span className="font-extrabold text-brand-800">{taka(subtotal)}</span>
           </div>
@@ -292,7 +292,7 @@ export function CheckoutForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-5 flex w-full items-center justify-center gap-1 rounded-xl bg-brand-700 py-3 text-sm font-bold text-white transition hover:bg-brand-800 disabled:opacity-60"
+            className="mt-4 flex w-full items-center justify-center gap-1 rounded-xl bg-brand-700 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800 disabled:opacity-60"
           >
             {submitting && <Loader2 className="size-4 animate-spin" />}
             {submitting ? "Placing order…" : "Place order"}

@@ -46,7 +46,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-4 text-[11px] text-muted">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-3 text-[11px] text-muted">
           <Link href="/" className="hover:text-brand-700">Home</Link>
           <ChevronRight className="size-3" />
           {parentCategory && (
@@ -60,15 +60,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
           <span className="line-clamp-1 text-ink">{category?.label ?? slug}</span>
         </nav>
 
-        <header className="mb-6">
+        <header className="mb-4">
           <h1 className="text-2xl font-extrabold tracking-tight">{category?.label ?? slug}</h1>
           <p className="mt-1 text-xs text-muted">{total} products</p>
         </header>
 
         {/* Subcategory tiles */}
         {category?.children && category.children.length > 0 && (
-          <div className="mb-8">
-            <h2 className="mb-3 text-sm font-bold text-ink">Subcategories</h2>
+          <div className="mb-5">
+            <h2 className="mb-2 text-sm font-bold text-ink">Subcategories</h2>
             <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {category.children.map((child) => (
                 <li key={child.slug}>
@@ -96,7 +96,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             </ul>
 
             {totalPages > 1 && (
-              <nav aria-label="Pagination" className="mt-8 flex justify-center gap-1">
+              <nav aria-label="Pagination" className="mt-6 flex justify-center gap-1">
                 {page > 1 && (
                   <Link
                     href={`/category/${slug}?page=${page - 1}`}
@@ -120,7 +120,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             )}
           </>
         ) : (
-          <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+          <div className="rounded-2xl bg-white p-6 text-center shadow-card">
             <p className="text-sm font-semibold text-ink">No products in this category yet.</p>
             <Link href="/" className="mt-3 inline-block text-xs font-semibold text-brand-700 hover:underline">
               Back to home

@@ -29,13 +29,13 @@ export default async function ProductsPage({ searchParams }: Props) {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-4 text-[11px] text-muted">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-3 text-[11px] text-muted">
           <Link href="/" className="hover:text-brand-700">Home</Link>
           <ChevronRight className="size-3" />
           <span className="text-ink">All Products</span>
         </nav>
 
-        <header className="mb-6 flex items-end justify-between">
+        <header className="mb-4 flex items-end justify-between">
           <div>
             <h1 className="text-2xl font-extrabold tracking-tight">All Products</h1>
             <p className="mt-1 text-xs text-muted">{total} products</p>
@@ -58,7 +58,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             </ul>
 
             {totalPages > 1 && (
-              <nav aria-label="Pagination" className="mt-8 flex justify-center gap-1">
+              <nav aria-label="Pagination" className="mt-6 flex justify-center gap-1">
                 {page > 1 && (
                   <Link
                     href={`/products?page=${page - 1}&sort=${sort}`}
@@ -82,7 +82,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             )}
           </>
         ) : (
-          <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+          <div className="rounded-2xl bg-white p-6 text-center shadow-card">
             <p className="text-sm font-semibold text-ink">No products yet.</p>
             <Link href="/" className="mt-3 inline-block text-xs font-semibold text-brand-700 hover:underline">
               Back to home

@@ -31,7 +31,7 @@ export function BuyNowButton({
       disabled={product.outOfStock || redirecting}
       className={
         className ||
-        "flex w-full items-center justify-center gap-1 rounded-xl bg-amber-700 py-3 text-sm font-bold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
+        "flex w-full items-center justify-center gap-1 rounded-xl bg-amber-700 py-2 text-sm font-bold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
       }
     >
       <Zap className="size-4" />

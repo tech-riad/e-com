@@ -55,11 +55,11 @@ export function AuthRegisterForm() {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+    <div className="rounded-2xl bg-white p-5 shadow-card sm:p-6">
       <h1 className="text-xl font-extrabold tracking-tight">Create an account</h1>
       <p className="mt-1 text-xs text-muted">Join Pickenby to track your orders.</p>
 
-      <form onSubmit={onSubmit} className="mt-6 space-y-4">
+      <form onSubmit={onSubmit} className="mt-4 space-y-3">
         <div>
           <label htmlFor="register-name" className="mb-1 block text-[11px] font-semibold text-muted">
             Full name *
@@ -140,7 +140,7 @@ export function AuthRegisterForm() {
         </button>
       </form>
 
-      <div className="my-4 flex items-center gap-3 text-[11px] text-muted">
+      <div className="my-3 flex items-center gap-3 text-[11px] text-muted">
         <span className="h-px flex-1 bg-slate-200" />
         or
         <span className="h-px flex-1 bg-slate-200" />

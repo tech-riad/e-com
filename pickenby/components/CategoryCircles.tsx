@@ -106,12 +106,12 @@ export function CategoryCircles({ items }: { items?: CircleItem[] }) {
   return (
     <section
       aria-labelledby="cat-circle"
-      className="bg-white/60 py-8"
+      className="bg-white/60 py-3"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <div className="container-page">
-        <div className="mb-5 flex items-center justify-between gap-2">
+        <div className="mb-2 flex items-center justify-between gap-2">
           <h2 id="cat-circle" className="text-sm font-bold">
             Categories <span className="text-sale">Circle</span>
           </h2>

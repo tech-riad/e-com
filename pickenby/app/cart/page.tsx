@@ -13,7 +13,7 @@ export default function CartPage() {
     return (
       <main className="pb-16">
         <div className="container-page">
-          <div className="mx-auto mt-10 max-w-md rounded-2xl bg-white p-10 text-center shadow-card">
+          <div className="mx-auto mt-8 max-w-md rounded-2xl bg-white p-6 text-center shadow-card">
             <span className="mx-auto grid size-14 place-items-center rounded-full bg-lavender text-muted">
               <ShoppingBag className="size-6" />
             </span>
@@ -21,7 +21,7 @@ export default function CartPage() {
             <p className="mt-1 text-xs text-muted">Browse our catalog and add items you love.</p>
             <Link
               href="/products"
-              className="mt-5 inline-block rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800"
+              className="mt-4 inline-block rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800"
             >
               Start shopping
             </Link>
@@ -34,14 +34,14 @@ export default function CartPage() {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <h1 className="py-6 text-2xl font-extrabold tracking-tight">Shopping Cart</h1>
+        <h1 className="py-4 text-2xl font-extrabold tracking-tight">Shopping Cart</h1>
 
-        <div className="grid gap-3 lg:grid-cols-[1fr_320px]">
-          <ul className="space-y-3">
+        <div className="grid gap-2 lg:grid-cols-[1fr_320px]">
+          <ul className="space-y-2">
             {items.map((item) => (
               <li
                 key={item.id}
-                className="flex gap-2 rounded-2xl bg-white p-3 shadow-card"
+                className="flex gap-2 rounded-2xl bg-white p-2 shadow-card"
               >
                 <Link
                   href={`/products/${item.slug ?? item.id}`}
@@ -78,7 +78,7 @@ export default function CartPage() {
                     </button>
                   </div>
 
-                  <div className="mt-auto flex items-center justify-between pt-3">
+                  <div className="mt-auto flex items-center justify-between pt-2">
                     <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 p-1">
                       <button
                         onClick={() => setQty(item.id, item.qty - 1)}
@@ -110,9 +110,9 @@ export default function CartPage() {
             ))}
           </ul>
 
-          <aside className="h-fit rounded-2xl bg-white p-5 shadow-card">
+          <aside className="h-fit rounded-2xl bg-white p-4 shadow-card">
             <h2 className="text-sm font-extrabold tracking-tight">Order Summary</h2>
-            <dl className="mt-4 space-y-2 text-xs text-muted">
+            <dl className="mt-3 space-y-1.5 text-xs text-muted">
               <div className="flex justify-between">
                 <dt>Subtotal</dt>
                 <dd className="font-semibold text-ink">{taka(subtotal)}</dd>
@@ -122,13 +122,13 @@ export default function CartPage() {
                 <dd className="font-semibold text-ink">Free</dd>
               </div>
             </dl>
-            <div className="mt-4 flex justify-between border-t border-slate-100 pt-3 text-sm">
+            <div className="mt-3 flex justify-between border-t border-slate-100 pt-2 text-sm">
               <span className="font-bold">Total</span>
               <span className="font-extrabold text-brand-800">{taka(subtotal)}</span>
             </div>
             <Link
               href="/checkout"
-              className="mt-5 block w-full rounded-xl bg-brand-700 py-3 text-center text-sm font-bold text-white transition hover:bg-brand-800"
+              className="mt-4 block w-full rounded-xl bg-brand-700 py-2.5 text-center text-sm font-bold text-white transition hover:bg-brand-800"
             >
               Proceed to Checkout
             </Link>

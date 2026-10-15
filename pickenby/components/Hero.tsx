@@ -50,7 +50,7 @@ export function Hero({
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + count) % count);
 
   return (
-    <section aria-label="Featured offers" className="container-page grid gap-2 py-2 lg:grid-cols-[250px_1fr]">
+    <section aria-label="Featured offers" className="container-page grid gap-2 py-1 lg:grid-cols-[250px_1fr]">
       {/* Category sidebar */}
       {sidebar && sidebar.length > 0 && (
         <aside className="hidden rounded-2xl bg-white p-3 shadow-card lg:block">

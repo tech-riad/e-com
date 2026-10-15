@@ -355,6 +355,16 @@ export async function getBrands(): Promise<string[]> {
   return rows.map((b) => b.name);
 }
 
+function getBrandLogoUrl(logo: unknown): string | undefined {
+  if (!logo || typeof logo !== "object" || Array.isArray(logo)) {
+    return getStrapiMediaUrl(logo);
+  }
+
+  const formats = (logo as { formats?: Record<string, { url?: string }> }).formats;
+  const preferredUrl = formats?.large?.url ?? formats?.medium?.url ?? formats?.small?.url;
+  return getStrapiMediaUrl(preferredUrl) ?? getStrapiMediaUrl(logo);
+}
+
 export async function getBrandsWithSlugs(): Promise<{ name: string; slug: string; image?: string }[]> {
   const rows = await fetchAPI<BrandAttr>("/brands", {
     "pagination[pageSize]": 100,
@@ -364,7 +374,7 @@ export async function getBrandsWithSlugs(): Promise<{ name: string; slug: string
   return rows.map((b) => ({
     name: b.name,
     slug: b.slug ?? slugify(b.name),
-    image: getStrapiMediaUrl(b.logo),
+    image: getBrandLogoUrl(b.logo),
   }));
 }
 
@@ -443,7 +453,7 @@ export async function getBrandBySlug(slug: string): Promise<{ name: string; slug
     "populate[logo]": true,
   });
   const row = rows[0];
-  if (row) return { name: row.name, slug: row.slug ?? slugify(row.name), image: getStrapiMediaUrl(row.logo) };
+  if (row) return { name: row.name, slug: row.slug ?? slugify(row.name), image: getBrandLogoUrl(row.logo) };
   const all = await getBrandsWithSlugs();
   return all.find((b) => b.slug === slug) ?? null;
 }

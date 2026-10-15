@@ -23,16 +23,16 @@ async function ConfirmationInner({ searchParams }: { searchParams?: Promise<{ re
   const totalNum = parseInt(total ?? "0", 10);
 
   return (
-    <div className="mx-auto mt-10 max-w-md rounded-2xl bg-white p-10 text-center shadow-card">
+    <div className="mx-auto mt-8 max-w-md rounded-2xl bg-white p-6 text-center shadow-card">
       <span className="mx-auto grid size-14 place-items-center rounded-full bg-emerald-100 text-emerald-600">
         <CheckCircle2 className="size-7" />
       </span>
-      <h1 className="mt-4 text-xl font-extrabold tracking-tight">Order placed!</h1>
+      <h1 className="mt-3 text-xl font-extrabold tracking-tight">Order placed!</h1>
       <p className="mt-1 text-xs text-muted">
         Thank you for shopping with Pickenby. We&apos;ll contact you shortly to confirm your order.
       </p>
 
-      <dl className="mt-6 space-y-2 rounded-xl bg-lavender/60 p-4 text-left text-xs text-muted">
+      <dl className="mt-4 space-y-1.5 rounded-xl bg-lavender/60 p-3 text-left text-xs text-muted">
         <div className="flex justify-between">
           <dt>Order reference</dt>
           <dd className="max-w-[180px] truncate font-mono font-semibold text-ink">{ref || "—"}</dd>
@@ -43,7 +43,7 @@ async function ConfirmationInner({ searchParams }: { searchParams?: Promise<{ re
         </div>
       </dl>
 
-      <div className="mt-6 flex gap-1">
+      <div className="mt-4 flex gap-1">
         <Link
           href="/products"
           className="flex-1 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800"

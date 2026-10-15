@@ -24,9 +24,9 @@ export function ProductRail({
   const showMore = layout === "grid" && moreTitle;
 
   return (
-    <section aria-label={title} className="py-8">
+    <section aria-label={title} className="py-3">
       <div className="container-page">
-        <div className="mb-5 flex items-center gap-1.5">
+        <div className="mb-3 flex items-center gap-1.5">
           <span className="grid size-9 place-items-center rounded-full bg-gold-soft text-gold">
             <Icon aria-hidden className="size-4" />
           </span>

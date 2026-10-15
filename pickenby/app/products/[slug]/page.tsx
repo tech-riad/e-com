@@ -62,13 +62,13 @@ export default async function ProductPage({ params }: Props) {
       />
       <div className="container-page">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-4 text-[11px] text-muted">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-3 text-[11px] text-muted">
           <Link href="/" className="hover:text-brand-700">Home</Link>
           <ChevronRight className="size-3" />
           <span className="line-clamp-1 text-ink">{p.title}</span>
         </nav>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-3 lg:grid-cols-2">
           <ProductGallery images={p.images ?? (p.image ? [p.image] : [])} alt={p.title} />
 
           <div>
@@ -77,7 +77,7 @@ export default async function ProductPage({ params }: Props) {
             )}
             <h1 className="mt-1 text-2xl font-extrabold leading-snug tracking-tight">{p.title}</h1>
 
-            <div className="mt-4 flex flex-wrap items-baseline gap-1.5">
+            <div className="mt-3 flex flex-wrap items-baseline gap-1.5">
               <span className="text-3xl font-extrabold text-brand-800">{taka(p.price)}</span>
               {p.mrp > p.price && (
                 <s className="text-sm text-muted">{taka(p.mrp)}</s>
@@ -92,7 +92,7 @@ export default async function ProductPage({ params }: Props) {
                 Out of Stock
               </p>
             ) : (
-              <div className="mt-5 grid w-full gap-2 sm:w-[26rem] sm:grid-cols-2">
+              <div className="mt-4 grid w-full gap-2 sm:w-[26rem] sm:grid-cols-2">
                 <AddToCartButton product={p} />
                 <BuyNowButton product={p} />
               </div>
@@ -104,7 +104,7 @@ export default async function ProductPage({ params }: Props) {
               </span>
             )}
 
-            <ul className="mt-6 grid gap-1 text-xs text-muted">
+            <ul className="mt-4 grid gap-1 text-xs text-muted">
               <li className="flex items-center gap-1">
                 <Truck className="size-3.5 text-brand-600" /> Free delivery on eligible orders
               </li>
@@ -119,8 +119,8 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         {relatedToShow.length > 0 && (
-          <section aria-labelledby="related" className="mt-14">
-            <h2 id="related" className="mb-5 text-lg font-extrabold tracking-tight">You may also like</h2>
+          <section aria-labelledby="related" className="mt-10">
+            <h2 id="related" className="mb-3 text-lg font-extrabold tracking-tight">You may also like</h2>
             <ul className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5">
               {relatedToShow.map((r) => (
                 <li key={r.id} className="flex">

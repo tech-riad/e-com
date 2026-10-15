@@ -81,14 +81,14 @@ export function PromoBanners({ items }: { items?: BannerItem[] }) {
   };
 
   return (
-    <section aria-label="Brand promotions" className="py-8">
+    <section aria-label="Brand promotions" className="py-1.5">
       <div className="container-page">
         <ul
           ref={ref}
           onScroll={sync}
           onTouchStart={() => holdFor()}
           onPointerDown={() => holdFor()}
-          className="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-auto pb-4"
+          className="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2"
         >
           {list.map((b) => (
             <li key={b.brand} className="w-[calc(50%-4px)] shrink-0 snap-start sm:w-[calc(33.333%-11px)]">

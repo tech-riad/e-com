@@ -25,13 +25,13 @@ export default async function BrandPage({ params }: Props) {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-4 text-[11px] text-muted">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-0.5 py-3 text-[11px] text-muted">
           <Link href="/" className="hover:text-brand-700">Home</Link>
           <ChevronRight className="size-3" />
           <span className="text-ink">{brand?.name ?? slug}</span>
         </nav>
 
-        <header className="mb-6 flex items-center justify-center rounded-2xl bg-white py-8 shadow-card">
+        <header className="mb-4 flex items-center justify-center rounded-2xl bg-white py-6 shadow-card">
           <div className="text-center">
             <h1 className="text-3xl font-black tracking-tight">{brand?.name ?? slug}</h1>
             <p className="mt-1 text-xs text-muted">{products.length} products</p>
@@ -47,7 +47,7 @@ export default async function BrandPage({ params }: Props) {
             ))}
           </ul>
         ) : (
-          <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+          <div className="rounded-2xl bg-white p-6 text-center shadow-card">
             <p className="text-sm font-semibold text-ink">No products from this brand yet.</p>
             <Link href="/" className="mt-3 inline-block text-xs font-semibold text-brand-700 hover:underline">
               Back to home

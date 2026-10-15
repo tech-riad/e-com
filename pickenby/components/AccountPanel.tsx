@@ -15,7 +15,7 @@ export function AccountPanel() {
 
   if (loading) {
     return (
-      <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+      <div className="rounded-2xl bg-white p-5 text-center shadow-card">
         <p className="text-sm font-semibold text-muted">Loading your account…</p>
       </div>
     );
@@ -23,15 +23,15 @@ export function AccountPanel() {
 
   if (!user) {
     return (
-      <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+      <div className="rounded-2xl bg-white p-5 text-center shadow-card">
         <p className="text-sm font-semibold text-muted">Redirecting to sign in…</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-card sm:p-8">
-      <div className="flex items-center gap-4">
+    <div className="rounded-2xl bg-white p-3 shadow-card sm:p-6">
+      <div className="flex items-center gap-3">
         {user.photoURL ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -57,7 +57,7 @@ export function AccountPanel() {
         </div>
       </div>
 
-      <dl className="mt-6 space-y-2 rounded-xl bg-slate-50 p-4 text-xs text-muted">
+      <dl className="mt-4 space-y-1.5 rounded-xl bg-slate-50 p-3 text-xs text-muted">
         <div className="flex justify-between">
           <dt>Sign-in method</dt>
           <dd className="font-semibold text-ink">Firebase</dd>

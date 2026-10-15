@@ -91,7 +91,7 @@ export function Header({ nav, navItems, settings }: { nav?: string[]; navItems?:
   return (
     <header className="sticky top-0 z-40 bg-white shadow-card">
       {/* Top bar */}
-      <div className="container-page flex items-center gap-2 py-3 sm:gap-3 lg:gap-5">
+      <div className="container-page flex items-center gap-2 py-2 sm:gap-3 lg:gap-5">
         {/* Hamburger - mobile only */}
         <button
           type="button"
@@ -327,7 +327,7 @@ export function Header({ nav, navItems, settings }: { nav?: string[]; navItems?:
             </nav>
 
             {/* Drawer footer - actions hidden on desktop topbar */}
-            <div className="border-t border-slate-100 p-4">
+            <div className="border-t border-slate-100 p-2">
               <div className="grid grid-cols-2 gap-3">
                 <a href={`tel:${phone}`} className="flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-3 py-2.5 text-xs font-bold text-white hover:bg-emerald-700">
                   <Phone className="size-3.5" />

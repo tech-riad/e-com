@@ -14,7 +14,7 @@ export function SoldCard({ p }: { p: Product }) {
         </span>
         <ProductImage src={p.image} alt={p.title} className="aspect-[4/5] rounded-lg bg-tile transition group-hover:bg-lavender" />
       </div>
-      <p className="mt-3 text-[11px] text-muted">{p.seller}</p>
+      <p className="mt-2 text-[11px] text-muted">{p.seller}</p>
       <h3 className="mt-0.5 line-clamp-2 text-xs font-bold leading-snug">{p.title}</h3>
       {p.outOfStock ? (
         <p className="mt-2 text-xs font-medium text-muted">Out of Stock</p>

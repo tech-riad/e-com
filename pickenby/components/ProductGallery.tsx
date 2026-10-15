@@ -44,7 +44,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
       </div>
 
       {count > 1 && (
-        <ul className="mt-3 flex gap-2 overflow-x-auto pb-1">
+        <ul className="mt-2 flex gap-2 overflow-x-auto pb-1">
           {images.map((src, i) => (
             <li key={src} className="shrink-0">
               <button

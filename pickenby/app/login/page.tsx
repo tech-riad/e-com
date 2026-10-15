@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <div className="mx-auto w-full max-w-md py-10">
+        <div className="mx-auto w-full max-w-md py-8">
           <AuthLoginForm />
         </div>
       </div>

@@ -18,7 +18,7 @@ export default async function SearchPage({ searchParams }: Props) {
   return (
     <main className="pb-16">
       <div className="container-page">
-        <header className="py-6">
+        <header className="py-4">
           <h1 className="flex items-center gap-1 text-2xl font-extrabold tracking-tight">
             <Search className="size-5 text-brand-600" /> Search results
           </h1>
@@ -38,7 +38,7 @@ export default async function SearchPage({ searchParams }: Props) {
             ))}
           </ul>
         ) : (
-          <div className="rounded-2xl bg-white p-10 text-center shadow-card">
+          <div className="rounded-2xl bg-white p-6 text-center shadow-card">
             <p className="text-sm font-semibold text-ink">
               {query ? "No products matched your search." : "Type a product name to search."}
             </p>

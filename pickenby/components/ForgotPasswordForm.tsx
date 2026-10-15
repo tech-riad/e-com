@@ -26,14 +26,14 @@ export function ForgotPasswordForm() {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+    <div className="rounded-2xl bg-white p-5 shadow-card sm:p-6">
       <h1 className="text-xl font-extrabold tracking-tight">Reset your password</h1>
       <p className="mt-1 text-xs text-muted">
         Enter your email and we&apos;ll send you a password reset link.
       </p>
 
       {sent ? (
-        <div className="mt-6">
+        <div className="mt-4">
           <span className="mx-auto grid size-12 place-items-center rounded-full bg-emerald-100 text-emerald-600">
             <CheckCircle2 className="size-6" />
           </span>
@@ -51,7 +51,7 @@ export function ForgotPasswordForm() {
           </Link>
         </div>
       ) : (
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        <form onSubmit={onSubmit} className="mt-4 space-y-3">
           <div>
             <label htmlFor="forgot-email" className="mb-1 block text-[11px] font-semibold text-muted">
               Email *
@@ -83,7 +83,7 @@ export function ForgotPasswordForm() {
         </form>
       )}
 
-      <p className="mt-6 text-center text-xs text-muted">
+      <p className="mt-4 text-center text-xs text-muted">
         Remembered it?{" "}
         <Link href="/login" className="font-semibold text-brand-700 hover:underline">
           Sign in

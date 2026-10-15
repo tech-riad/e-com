@@ -38,9 +38,9 @@ export function TrendingCategories({
   const d =
     data && (data.large.length > 0 || data.small.length > 0) ? data : trending;
   return (
-    <section aria-labelledby="trending" className="py-10">
+    <section aria-labelledby="trending" className="py-3">
       <div className="container-page">
-        <div className="mb-5 flex items-end justify-between">
+        <div className="mb-3 flex items-end justify-between">
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-gold">What customers love this week</p>
             <h2 id="trending" className="mt-1 text-2xl font-extrabold tracking-tight">Trending categories</h2>

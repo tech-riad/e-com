@@ -19,7 +19,7 @@ export function ProductImage({
   return (
     <div className={`relative grid place-items-center overflow-hidden ${className}`}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} className="object-contain p-4" />
+        <Image src={src} alt={alt} fill sizes={sizes} className="object-contain p-3" />
       ) : (
         <Package aria-hidden className="size-10 text-muted/40" strokeWidth={1.25} />
       )}
