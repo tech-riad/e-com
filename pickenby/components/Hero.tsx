@@ -36,6 +36,7 @@ export function Hero({
   const list: HeroSlide[] = slides && slides.length > 0 ? slides : heroSlides;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
   const count = list.length;
 
   useEffect(() => {
@@ -45,10 +46,11 @@ export function Hero({
   }, [paused, count]);
 
   const slide = list[index];
+  const imageRatio = slide.image ? imageRatios[slide.image] : undefined;
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + count) % count);
 
   return (
-    <section aria-label="Featured offers" className="container-page grid gap-2 py-5 lg:grid-cols-[250px_1fr]">
+    <section aria-label="Featured offers" className="container-page grid gap-2 py-2 lg:grid-cols-[250px_1fr]">
       {/* Category sidebar */}
       {sidebar && sidebar.length > 0 && (
         <aside className="hidden rounded-2xl bg-white p-3 shadow-card lg:block">
@@ -103,7 +105,8 @@ export function Hero({
 
       {/* Carousel */}
       <div
-        className="relative min-h-[340px] overflow-hidden rounded-2xl bg-[#f6efe6] shadow-card"
+        className={`relative overflow-hidden rounded-2xl bg-[#f6efe6] shadow-card ${imageRatio ? "" : "min-h-[340px]"}`}
+        style={imageRatio ? { aspectRatio: `${imageRatio}` } : undefined}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -115,8 +118,12 @@ export function Hero({
                 alt={slide.headline || "Promo banner"}
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className="object-contain"
                 priority={index === 0}
+                onLoad={(event) => {
+                  const ratio = event.currentTarget.naturalWidth / event.currentTarget.naturalHeight;
+                  setImageRatios((ratios) => ({ ...ratios, [slide.image!]: ratio }));
+                }}
               />
             </div>
           ) : (
