@@ -62,6 +62,17 @@ const productionMediaUrl = (url: string) => {
   return undefined;
 };
 
+const storefrontOrigin = () => {
+  const { hostname, origin, protocol } = window.location;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return `${protocol}//${hostname}:3000`;
+  }
+  if (hostname.startsWith('admin.')) {
+    return `${protocol}//${hostname.slice('admin.'.length)}`;
+  }
+  return origin;
+};
+
 export default function OrderItemsPreviewInput({ value }: Props) {
   const items = getItems(value);
   const lookupKey = [...new Set(items.filter((item) => !getImage(item.image)).map(getSlug).filter(Boolean))].join('|');
@@ -178,7 +189,7 @@ export default function OrderItemsPreviewInput({ value }: Props) {
               </div>
               {slug && (
                 <a
-                  href={`http://localhost:3000/products/${encodeURIComponent(slug)}`}
+                  href={`${storefrontOrigin()}/products/${encodeURIComponent(slug)}`}
                   rel="noreferrer"
                   target="_blank"
                   style={{ color: '#4945ff', display: 'inline-block', fontSize: 12, marginTop: 7 }}

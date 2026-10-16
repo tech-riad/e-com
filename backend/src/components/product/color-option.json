@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_product_color_options",
+  "info": {
+    "displayName": "Product color",
+    "description": "A color available for this product"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "hexCode": {
+      "type": "string"
+    }
+  }
+}

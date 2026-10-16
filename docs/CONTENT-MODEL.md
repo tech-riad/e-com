@@ -75,6 +75,7 @@ Collection: `products` · draft & publish: yes · **must be published to appear 
 | `badges` | json | no | String array — see [badges values](#badges-values) |
 | `image` | media | no | Main product photo (used on cards, cart and as the gallery cover) |
 | `gallery` | media (multiple) | no | Extra product photos shown as a thumbnail gallery on the product page |
+| `colors` | repeatable component | no | Zero or more `{ name, hexCode? }` color options |
 | `isTopSelling` | boolean | no (default `false`) | → "Top Selling Products" grid |
 | `isTopPick` | boolean | no (default `false`) | → "Top picks" rail |
 | `isNewArrival` | boolean | no (default `false`) | → "New arrivals" rail |

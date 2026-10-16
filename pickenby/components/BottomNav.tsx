@@ -9,6 +9,7 @@ import { CartCount } from "./CartCount";
 export function BottomNav() {
   const pathname = usePathname();
   const { user } = useAuth();
+  const isProductDetail = pathname.startsWith("/products/");
 
   const tabs = [
     { label: "Home", href: "/", Icon: House, active: pathname === "/" },
@@ -34,7 +35,10 @@ export function BottomNav() {
   return (
     <>
       {/* In-flow spacer so page content is never covered by the fixed bar */}
-      <div aria-hidden className="h-16 lg:hidden" />
+      <div
+        aria-hidden
+        className={`${isProductDetail ? "h-[calc(9rem+env(safe-area-inset-bottom))] sm:h-16" : "h-16"} lg:hidden`}
+      />
       <nav
         aria-label="Mobile"
         className="fixed bottom-0 left-0 right-0 z-30 block w-full border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-float lg:hidden"
