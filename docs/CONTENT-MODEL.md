@@ -140,7 +140,7 @@ Collection: `orders` · draft & publish: **no** · created only via `POST /api/o
 | `note` | text | no | Customer note |
 | `items` | json | no | Array of `{ slug, title, price, qty }` |
 | `total` | decimal | no | Order total |
-| `status` | enumeration | no (default `pending`) | `pending`, `confirmed`, `shipped`, `delivered`, `cancelled` |
+| `orderStatus` | enumeration | no (default `pending`) | Admin order status: `pending`, `confirmed`, `shipped`, `delivered`, `cancelled`. Stored in the existing `status` database column; the public create API keeps the `status` field name. |
 
 Orders are not browsable by the public (only `create` is exposed); manage them in the
 Strapi admin content manager.

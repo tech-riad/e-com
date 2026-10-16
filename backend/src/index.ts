@@ -300,7 +300,9 @@ async function ensurePublicPermissions(strapi: Core.Strapi): Promise<void> {
 }
 
 export default {
-  register() {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    strapi.customFields.register({ name: 'order-items-preview', type: 'json' });
+  },
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     if (process.env.SEED_ON_BOOT === 'false') return;

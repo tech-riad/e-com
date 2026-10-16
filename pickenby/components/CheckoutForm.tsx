@@ -54,6 +54,9 @@ export function CheckoutForm() {
         slug: i.slug ?? i.id,
         title: i.title,
         price: i.price,
+        mrp: i.mrp,
+        image: i.image,
+        brand: i.brand,
         qty: i.qty,
       })),
     [items]

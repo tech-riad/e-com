@@ -581,21 +581,22 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
     eventSourceUrl: Schema.Attribute.String & Schema.Attribute.Private;
     fbc: Schema.Attribute.String & Schema.Attribute.Private;
     fbp: Schema.Attribute.String & Schema.Attribute.Private;
-    items: Schema.Attribute.JSON;
+    items: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<'global::order-items-preview'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &
       Schema.Attribute.Private;
     note: Schema.Attribute.Text;
+    orderStatus: Schema.Attribute.Enumeration<
+      ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
+    > &
+      Schema.Attribute.DefaultTo<'pending'>;
     paymentMethod: Schema.Attribute.Enumeration<
       ['Cash on Delivery', 'bKash', 'Nagad', 'Card']
     > &
       Schema.Attribute.DefaultTo<'Cash on Delivery'>;
     phone: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    status: Schema.Attribute.Enumeration<
-      ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
-    > &
-      Schema.Attribute.DefaultTo<'pending'>;
     total: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

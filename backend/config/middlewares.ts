@@ -6,7 +6,23 @@ export default ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Middlewar
   const config: Core.Config.Middlewares = [
     'strapi::logger',
     'strapi::errors',
-    'strapi::security',
+    {
+      name: 'strapi::security',
+      config: {
+        contentSecurityPolicy: {
+          useDefaults: true,
+          directives: {
+            'img-src': [
+              "'self'",
+              'data:',
+              'blob:',
+              'https://market-assets.strapi.io',
+              'https://admin.pickenby.com',
+            ],
+          },
+        },
+      },
+    },
     {
       name: 'strapi::cors',
       config: {
