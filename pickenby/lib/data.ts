@@ -1,3 +1,8 @@
+export type ProductColor = {
+  name: string;
+  hexCode?: string;
+};
+
 export type Product = {
   id: string;
   /** URL slug — present for CMS products, derived for mocks. */
@@ -8,6 +13,7 @@ export type Product = {
   price: number;
   mrp: number;
   image?: string;
+  colors?: ProductColor[];
   /** All product images, cover first (cover + CMS gallery). */
   images?: string[];
   sold?: number;

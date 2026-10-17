@@ -29,6 +29,7 @@ type ProductAttr = {
   sold?: number;
   outOfStock?: boolean;
   emi?: boolean;
+  colors?: { name?: string; hexCode?: string | null }[] | null;
   badges?: Product["badges"];
   image?: { data?: { attributes?: { url?: string } } | null } | MediaAttr;
   gallery?: unknown;
@@ -106,6 +107,14 @@ function toProduct(p: ProductAttr): Product {
     price: num(p.price),
     mrp: num(p.mrp, num(p.price)),
     image,
+    colors: Array.isArray(p.colors)
+      ? p.colors
+          .filter((color): color is { name: string; hexCode?: string | null } => typeof color.name === "string" && color.name.length > 0)
+          .map(({ name, hexCode }) => ({
+            name,
+            ...(typeof hexCode === "string" ? { hexCode } : {}),
+          }))
+      : undefined,
     images,
     sold: p.sold ?? undefined,
     outOfStock: p.outOfStock,
@@ -145,6 +154,7 @@ export async function getProducts(filter?: {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const rows = await fetchAPI<ProductAttr>("/products", {
     ...PRODUCT_POPULATE,
+    "populate[colors]": true,
     "filters[slug][$eq]": slug,
     "pagination[pageSize]": 1,
   });

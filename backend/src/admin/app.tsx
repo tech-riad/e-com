@@ -8,7 +8,7 @@ export default {
       intlLabel: { id: 'order-items-preview.label', defaultMessage: 'Order items' },
       intlDescription: {
         id: 'order-items-preview.description',
-        defaultMessage: 'Read-only product preview for order items',
+        defaultMessage: 'Product preview with editable color and quantity',
       },
       components: {
         Input: async () => import('./components/OrderItemsPreviewInput'),

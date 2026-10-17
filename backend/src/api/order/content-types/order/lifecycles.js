@@ -21,7 +21,20 @@ const hashedField = (value) => {
   return hash ? [hash] : undefined;
 };
 
+const calculateOrderTotal = (items) =>
+  items.reduce((total, item) => {
+    const price = Number(item.price);
+    const quantity = Number(item.qty ?? item.quantity ?? 1);
+    if (!Number.isFinite(price)) return total;
+    return total + price * (Number.isFinite(quantity) && quantity > 0 ? quantity : 1);
+  }, 0);
+
 module.exports = {
+  async beforeUpdate(event) {
+    const data = event.params.data;
+    if (Array.isArray(data.items)) data.total = calculateOrderTotal(data.items);
+  },
+
   async afterCreate(event) {
     const order = event.result;
     const pixelId = process.env.FB_PIXEL_ID;

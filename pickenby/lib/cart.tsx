@@ -9,9 +9,10 @@ import {
   useReducer,
   type ReactNode,
 } from "react";
-import type { Product } from "@/lib/data";
+import type { Product, ProductColor } from "@/lib/data";
 
 export type CartItem = {
+  cartKey: string;
   id: string;
   slug?: string;
   title: string;
@@ -19,16 +20,20 @@ export type CartItem = {
   mrp: number;
   image?: string;
   brand?: string;
+  color?: ProductColor;
   qty: number;
 };
+
+const makeCartKey = (id: string, color?: ProductColor) =>
+  `${id}::${color ? `${color.name.trim().toLowerCase()}|${color.hexCode?.toLowerCase() ?? ""}` : ""}`;
 
 type State = { items: CartItem[] };
 
 type Action =
   | { type: "hydrate"; items: CartItem[] }
   | { type: "add"; item: Omit<CartItem, "qty"> }
-  | { type: "remove"; id: string }
-  | { type: "setQty"; id: string; qty: number }
+  | { type: "remove"; cartKey: string }
+  | { type: "setQty"; cartKey: string; qty: number }
   | { type: "clear" };
 
 const STORAGE_KEY = "pickenby-cart";
@@ -38,23 +43,23 @@ function reducer(state: State, action: Action): State {
     case "hydrate":
       return { items: action.items };
     case "add": {
-      const existing = state.items.find((i) => i.id === action.item.id);
+      const existing = state.items.find((i) => i.cartKey === action.item.cartKey);
       if (existing) {
         return {
           items: state.items.map((i) =>
-            i.id === action.item.id ? { ...i, qty: i.qty + 1 } : i
+            i.cartKey === action.item.cartKey ? { ...i, qty: i.qty + 1 } : i
           ),
         };
       }
       return { items: [...state.items, { ...action.item, qty: 1 }] };
     }
     case "remove":
-      return { items: state.items.filter((i) => i.id !== action.id) };
+      return { items: state.items.filter((i) => i.cartKey !== action.cartKey) };
     case "setQty":
       return {
         items: state.items
           .map((i) =>
-            i.id === action.id ? { ...i, qty: Math.max(1, action.qty) } : i
+            i.cartKey === action.cartKey ? { ...i, qty: Math.max(1, action.qty) } : i
           )
           .filter((i) => i.qty > 0),
       };
@@ -69,16 +74,17 @@ type CartContextValue = {
   items: CartItem[];
   count: number;
   subtotal: number;
-  addItem: (p: Product) => void;
-  removeItem: (id: string) => void;
-  setQty: (id: string, qty: number) => void;
+  addItem: (p: Product, color?: ProductColor) => void;
+  removeItem: (cartKey: string) => void;
+  setQty: (cartKey: string, qty: number) => void;
   clear: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-export function toCartItem(p: Product): Omit<CartItem, "qty"> {
+export function toCartItem(p: Product, color?: ProductColor): Omit<CartItem, "qty"> {
   return {
+    cartKey: makeCartKey(p.id, color),
     id: p.id,
     slug: p.slug,
     title: p.title,
@@ -86,6 +92,7 @@ export function toCartItem(p: Product): Omit<CartItem, "qty"> {
     mrp: p.mrp,
     image: p.image,
     brand: p.brand,
+    color,
   };
 }
 
@@ -97,7 +104,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) dispatch({ type: "hydrate", items: parsed });
+        if (Array.isArray(parsed)) {
+          const items = parsed.map((item) => {
+            const cartItem = item as CartItem;
+            return {
+              ...cartItem,
+              cartKey: cartItem.cartKey || makeCartKey(cartItem.id, cartItem.color),
+            };
+          });
+          dispatch({ type: "hydrate", items });
+        }
       }
     } catch {
       // ignore malformed storage
@@ -112,16 +128,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [state.items]);
 
-  const addItem = useCallback((p: Product) => {
-    dispatch({ type: "add", item: toCartItem(p) });
+  const addItem = useCallback((p: Product, color?: ProductColor) => {
+    dispatch({ type: "add", item: toCartItem(p, color) });
   }, []);
 
-  const removeItem = useCallback((id: string) => {
-    dispatch({ type: "remove", id });
+  const removeItem = useCallback((cartKey: string) => {
+    dispatch({ type: "remove", cartKey });
   }, []);
 
-  const setQty = useCallback((id: string, qty: number) => {
-    dispatch({ type: "setQty", id, qty });
+  const setQty = useCallback((cartKey: string, qty: number) => {
+    dispatch({ type: "setQty", cartKey, qty });
   }, []);
 
   const clear = useCallback(() => dispatch({ type: "clear" }), []);

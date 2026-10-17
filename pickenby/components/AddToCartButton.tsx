@@ -3,21 +3,29 @@
 import { useState } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
-import type { Product } from "@/lib/data";
+import type { Product, ProductColor } from "@/lib/data";
 import { trackMetaAddToCart } from "@/components/MetaPixel";
 
 export function AddToCartButton({
   product,
+  color,
+  onMissingColor,
   className = "",
 }: {
   product: Product;
+  color?: ProductColor;
+  onMissingColor?: () => void;
   className?: string;
 }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
   const onClick = () => {
-    addItem(product);
+    if (product.colors?.length && !color) {
+      onMissingColor?.();
+      return;
+    }
+    addItem(product, color);
     trackMetaAddToCart(product.slug ?? product.id, product.price);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1500);

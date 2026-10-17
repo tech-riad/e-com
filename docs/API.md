@@ -68,7 +68,7 @@ POST http://localhost:1337/api/orders
   "paymentMethod": "Cash on Delivery",
   "note": "Call before delivery",
   "items": [
-    { "slug": "fujita-5-0l-faf-501dw-digital-display-air-fryer", "title": "Fujita 5.0L Air Fryer", "price": 5900, "qty": 2 }
+    { "slug": "fujita-5-0l-faf-501dw-digital-display-air-fryer", "title": "Fujita 5.0L Air Fryer", "price": 5900, "qty": 2, "color": { "name": "Black", "hexCode": "#141414" } }
   ],
   "total": 11800,
   "eventId": "<unique-purchase-event-id>",
@@ -80,6 +80,8 @@ POST http://localhost:1337/api/orders
 
 The route handler requires `customerName`, `phone`, and `address` (non-empty strings),
 then sends `{ "data": <body> }` to Strapi.
+Each order item's `color` is optional and stores the selected `{ name, hexCode? }` snapshot.
+When an order item's quantity is updated in Strapi, `total` is recalculated from the item prices and quantities.
 The four Meta attribution fields are private Strapi fields. After order creation,
 the order lifecycle sends a server-side `Purchase` event using the same `eventId`
 as the browser Pixel event for deduplication. Set `FB_PIXEL_ID` and `FB_CAPI_TOKEN`

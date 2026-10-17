@@ -6,8 +6,7 @@ import { taka, topPicks } from "@/lib/data";
 import { getProductBySlug, getProducts, getAllProducts } from "@/lib/cms";
 import { ProductGallery } from "@/components/ProductGallery";
 import { DealCard } from "@/components/ProductCard";
-import { AddToCartButton } from "@/components/AddToCartButton";
-import { BuyNowButton } from "@/components/BuyNowButton";
+import { ProductPurchaseOptions } from "@/components/ProductPurchaseOptions";
 import { MetaPixelEvent } from "@/components/MetaPixel";
 
 export const revalidate = 60;
@@ -87,16 +86,7 @@ export default async function ProductPage({ params }: Props) {
               ) : null}
             </div>
 
-            {p.outOfStock ? (
-              <p className="mt-4 inline-block rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-muted">
-                Out of Stock
-              </p>
-            ) : (
-              <div className="mt-4 hidden w-full gap-2 sm:grid sm:w-[26rem] sm:grid-cols-2">
-                <AddToCartButton product={p} />
-                <BuyNowButton product={p} />
-              </div>
-            )}
+            <ProductPurchaseOptions product={p} />
 
             {p.emi && (
               <span className="mt-3 inline-block rounded bg-emerald-100 px-1.5 py-0.5 text-[11px] font-bold text-emerald-700">
@@ -117,24 +107,6 @@ export default async function ProductPage({ params }: Props) {
             </ul>
           </div>
         </div>
-
-        {!p.outOfStock && (
-          <div
-            aria-label="Purchase actions"
-            className="fixed inset-x-0 z-40 grid grid-cols-2 gap-2 border-t border-slate-200 bg-white/95 p-3 shadow-float backdrop-blur sm:hidden"
-            role="group"
-            style={{ bottom: "calc(4rem + env(safe-area-inset-bottom))" }}
-          >
-            <AddToCartButton
-              product={p}
-              className="flex min-h-11 w-full items-center justify-center gap-1 rounded-lg bg-brand-700 px-2 py-2 text-xs font-bold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
-            />
-            <BuyNowButton
-              product={p}
-              className="flex min-h-11 w-full items-center justify-center gap-1 rounded-lg bg-amber-700 px-2 py-2 text-xs font-bold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
-            />
-          </div>
-        )}
 
         {relatedToShow.length > 0 && (
           <section aria-labelledby="related" className="mt-10">

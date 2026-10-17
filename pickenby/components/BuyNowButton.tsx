@@ -4,14 +4,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Zap } from "lucide-react";
 import { useCart } from "@/lib/cart";
-import type { Product } from "@/lib/data";
+import type { Product, ProductColor } from "@/lib/data";
 import { trackMetaAddToCart } from "@/components/MetaPixel";
 
 export function BuyNowButton({
   product,
+  color,
+  onMissingColor,
   className = "",
 }: {
   product: Product;
+  color?: ProductColor;
+  onMissingColor?: () => void;
   className?: string;
 }) {
   const { addItem } = useCart();
@@ -19,7 +23,11 @@ export function BuyNowButton({
   const [redirecting, setRedirecting] = useState(false);
 
   const onClick = () => {
-    addItem(product);
+    if (product.colors?.length && !color) {
+      onMissingColor?.();
+      return;
+    }
+    addItem(product, color);
     trackMetaAddToCart(product.slug ?? product.id, product.price);
     setRedirecting(true);
     router.push("/checkout");

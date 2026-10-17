@@ -10,10 +10,21 @@ type Item = {
   quantity?: number | string;
   image?: string | { url?: string } | null;
   brand?: string | { name?: string } | null;
+  color?: string | { name?: string; hexCode?: string } | null;
 };
 
-type Props = { value?: unknown };
-type CatalogDetails = { image?: string; brand?: string };
+type Props = {
+  value?: unknown;
+  name?: string;
+  attribute?: { type?: string };
+  disabled?: boolean;
+  onChange?: (event: { target: { name: string; type: string; value: unknown } }) => void;
+};
+type CatalogDetails = {
+  image?: string;
+  brand?: string;
+  colors?: { name: string; hexCode?: string }[];
+};
 
 const getItems = (value: unknown): Item[] => {
   let parsed = value;
@@ -36,6 +47,16 @@ const getImage = (image: Item['image']): string | undefined =>
 
 const getBrand = (brand: Item['brand']): string | undefined =>
   typeof brand === 'string' ? brand : brand?.name;
+
+const getColor = (color: Item['color']): string | undefined =>
+  typeof color === 'string' ? color : color?.name;
+
+const getColorHex = (color: Item['color']): string | undefined => {
+  if (typeof color !== 'object' || !color?.hexCode) return undefined;
+  return /^#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.test(color.hexCode)
+    ? color.hexCode
+    : undefined;
+};
 
 const money = (value: unknown) => {
   const amount = Number(value);
@@ -73,10 +94,35 @@ const storefrontOrigin = () => {
   return origin;
 };
 
-export default function OrderItemsPreviewInput({ value }: Props) {
+export default function OrderItemsPreviewInput({
+  value,
+  name = 'items',
+  attribute,
+  disabled = false,
+  onChange,
+}: Props) {
   const items = getItems(value);
-  const lookupKey = [...new Set(items.filter((item) => !getImage(item.image)).map(getSlug).filter(Boolean))].join('|');
+  const lookupKey = [...new Set(items.map(getSlug).filter(Boolean))].join('|');
   const [catalog, setCatalog] = useState<Record<string, CatalogDetails>>({});
+
+  const updateItem = (index: number, changes: Partial<Item>, updateTotal = false) => {
+    const nextItems = items.map((item, itemIndex) =>
+      itemIndex === index ? { ...item, ...changes } : item
+    );
+    onChange?.({
+      target: { name, type: attribute?.type ?? 'json', value: nextItems },
+    });
+    if (updateTotal) {
+      const total = nextItems.reduce((sum, item) => {
+        const price = Number(item.price);
+        const quantity = Number(item.qty ?? item.quantity ?? 1);
+        return Number.isFinite(price)
+          ? sum + price * (Number.isFinite(quantity) && quantity > 0 ? quantity : 1)
+          : sum;
+      }, 0);
+      onChange?.({ target: { name: 'total', type: 'decimal', value: total } });
+    }
+  };
 
   useEffect(() => {
     if (!lookupKey) return;
@@ -87,7 +133,7 @@ export default function OrderItemsPreviewInput({ value }: Props) {
       slugs.map(async (slug) => {
         const query = new URLSearchParams({
           'filters[slug][$eq]': slug,
-          populate: 'image,brand',
+          populate: 'image,brand,colors',
         });
         const response = await fetch(`/api/products?${query}`, { signal: controller.signal });
         if (!response.ok) return [slug, {}] as const;
@@ -97,7 +143,15 @@ export default function OrderItemsPreviewInput({ value }: Props) {
         const details = product?.attributes ?? product ?? {};
         const image = details.image?.url ?? details.image?.data?.attributes?.url;
         const brand = details.brand?.name ?? details.brand?.data?.attributes?.name;
-        return [slug, { image, brand }] as const;
+        const colors = Array.isArray(details.colors)
+          ? details.colors
+              .filter((color: { name?: unknown }) => typeof color.name === 'string' && color.name.length > 0)
+              .map((color: { name: string; hexCode?: unknown }) => ({
+                name: color.name,
+                ...(typeof color.hexCode === 'string' ? { hexCode: color.hexCode } : {}),
+              }))
+          : [];
+        return [slug, { image, brand, colors }] as const;
       })
     )
       .then((entries) => setCatalog(Object.fromEntries(entries)))
@@ -121,6 +175,17 @@ export default function OrderItemsPreviewInput({ value }: Props) {
         const details = catalog[slug];
         const image = getImage(item.image) ?? details?.image;
         const brand = getBrand(item.brand) ?? details?.brand;
+        const color = getColor(item.color);
+        const colorHex = getColorHex(item.color);
+        const currentColor =
+          typeof item.color === 'string'
+            ? { name: item.color }
+            : item.color ?? undefined;
+        const availableColors = details?.colors ?? [];
+        const colorOptions = currentColor &&
+          !availableColors.some((option) => option.name === currentColor.name)
+          ? [currentColor, ...availableColors]
+          : availableColors;
         const quantity = Number(item.qty ?? item.quantity ?? 1) || 1;
         const price = Number(item.price);
 
@@ -181,6 +246,66 @@ export default function OrderItemsPreviewInput({ value }: Props) {
                   Product: {slug}
                 </div>
               )}
+              <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'minmax(140px, 1fr) 110px', marginTop: 8, maxWidth: 380 }}>
+                <label style={{ color: '#32324d', display: 'grid', fontSize: 12, gap: 4 }}>
+                  Color
+                  {availableColors.length > 0 ? (
+                    <select
+                      aria-label={`Color for ${item.title ?? `item ${index + 1}`}`}
+                      disabled={disabled}
+                      onChange={(event) => {
+                        const option = colorOptions.find((entry) => entry.name === event.target.value);
+                        updateItem(index, {
+                          color: option
+                            ? { name: option.name, ...(option.hexCode ? { hexCode: option.hexCode } : {}) }
+                            : undefined,
+                        });
+                      }}
+                      value={color ?? ''}
+                      style={{ background: '#fff', border: '1px solid #dcdce4', borderRadius: 6, color: '#181826', minHeight: 36, padding: '6px 8px' }}
+                    >
+                      <option value="">Select color</option>
+                      {colorOptions.map((option, optionIndex) => (
+                        <option key={`${option.name}-${optionIndex}`} value={option.name}>
+                          {option.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      aria-label={`Color for ${item.title ?? `item ${index + 1}`}`}
+                      disabled={disabled}
+                      onChange={(event) => updateItem(index, {
+                        color: event.target.value ? { name: event.target.value } : undefined,
+                      })}
+                      placeholder="Enter color"
+                      value={color ?? ''}
+                      style={{ background: '#fff', border: '1px solid #dcdce4', borderRadius: 6, color: '#181826', minHeight: 36, padding: '6px 8px' }}
+                    />
+                  )}
+                  {colorHex && <span aria-hidden style={{ backgroundColor: colorHex, border: '1px solid #dcdce4', borderRadius: '50%', height: 12, width: 12 }} />}
+                </label>
+                <label style={{ color: '#32324d', display: 'grid', fontSize: 12, gap: 4 }}>
+                  Quantity
+                  <input
+                    aria-label={`Quantity for ${item.title ?? `item ${index + 1}`}`}
+                    disabled={disabled}
+                    min={1}
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      updateItem(index, {
+                        qty: nextValue === '' ? '' : Math.max(1, Math.floor(Number(nextValue) || 1)),
+                      }, true);
+                    }}
+                    onBlur={(event) => {
+                      if (!event.target.value) updateItem(index, { qty: 1 }, true);
+                    }}
+                    type="number"
+                    value={item.qty ?? item.quantity ?? 1}
+                    style={{ background: '#fff', border: '1px solid #dcdce4', borderRadius: 6, color: '#181826', minHeight: 36, padding: '6px 8px', width: '100%' }}
+                  />
+                </label>
+              </div>
               <div style={{ color: '#32324d', fontSize: 14, marginTop: 7 }}>
                 Price: {money(item.price)}
                 {item.mrp != null && ` · MRP: ${money(item.mrp)}`}

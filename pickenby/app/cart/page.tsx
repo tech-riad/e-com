@@ -40,7 +40,7 @@ export default function CartPage() {
           <ul className="space-y-2">
             {items.map((item) => (
               <li
-                key={item.id}
+                key={item.cartKey}
                 className="flex gap-2 rounded-2xl bg-white p-2 shadow-card"
               >
                 <Link
@@ -68,9 +68,23 @@ export default function CartPage() {
                       >
                         {item.title}
                       </Link>
+                      {item.color && (
+                        <p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted">
+                          <span
+                            aria-hidden
+                            className="size-3 rounded-full border border-black/15"
+                            style={{
+                              backgroundColor: /^#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.test(item.color.hexCode ?? "")
+                                ? item.color.hexCode
+                                : "#e5e7eb",
+                            }}
+                          />
+                          Color: {item.color.name}
+                        </p>
+                      )}
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.cartKey)}
                       aria-label={`Remove ${item.title}`}
                       className="grid size-7 shrink-0 place-items-center rounded-full text-muted transition hover:bg-slate-100 hover:text-sale"
                     >
@@ -81,7 +95,7 @@ export default function CartPage() {
                   <div className="mt-auto flex items-center justify-between pt-2">
                     <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 p-1">
                       <button
-                        onClick={() => setQty(item.id, item.qty - 1)}
+                        onClick={() => setQty(item.cartKey, item.qty - 1)}
                         aria-label="Decrease quantity"
                         className="grid size-6 place-items-center rounded text-muted hover:bg-slate-100"
                       >
@@ -89,7 +103,7 @@ export default function CartPage() {
                       </button>
                       <span className="w-6 text-center text-xs font-bold">{item.qty}</span>
                       <button
-                        onClick={() => setQty(item.id, item.qty + 1)}
+                        onClick={() => setQty(item.cartKey, item.qty + 1)}
                         aria-label="Increase quantity"
                         className="grid size-6 place-items-center rounded text-muted hover:bg-slate-100"
                       >

@@ -57,6 +57,7 @@ export function CheckoutForm() {
         mrp: i.mrp,
         image: i.image,
         brand: i.brand,
+        color: i.color,
         qty: i.qty,
       })),
     [items]
