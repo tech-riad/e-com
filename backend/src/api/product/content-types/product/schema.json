@@ -36,6 +36,9 @@
     "seller": {
       "type": "string"
     },
+    "description": {
+      "type": "blocks"
+    },
     "price": {
       "type": "decimal",
       "required": true

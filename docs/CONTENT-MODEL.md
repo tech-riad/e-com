@@ -66,6 +66,7 @@ Collection: `products` · draft & publish: yes · **must be published to appear 
 | `brand` | relation (manyToOne) | no | → `brand` |
 | `categories` | relation (manyToMany) | no | → `category` |
 | `seller` | string | no | Seller name shown on cards |
+| `description` | blocks (rich text) | no | Product details with formatted text, lists, links, and images |
 | `price` | decimal | yes | Selling price |
 | `mrp` | decimal | no | Original price (strikethrough) |
 | `discount` | integer | no (default `0`) | Discount percentage pill |

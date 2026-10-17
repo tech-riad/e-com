@@ -30,6 +30,7 @@ type ProductAttr = {
   outOfStock?: boolean;
   emi?: boolean;
   colors?: { name?: string; hexCode?: string | null }[] | null;
+  description?: Product["description"] | null;
   badges?: Product["badges"];
   image?: { data?: { attributes?: { url?: string } } | null } | MediaAttr;
   gallery?: unknown;
@@ -115,6 +116,7 @@ function toProduct(p: ProductAttr): Product {
             ...(typeof hexCode === "string" ? { hexCode } : {}),
           }))
       : undefined,
+    description: Array.isArray(p.description) ? p.description : undefined,
     images,
     sold: p.sold ?? undefined,
     outOfStock: p.outOfStock,

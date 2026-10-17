@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@strapi/blocks-react-renderer": "^1.0.2",
     "firebase": "^11.10.0",
     "lucide-react": "latest",
     "next": "latest",

@@ -1,3 +1,5 @@
+import type { BlocksContent } from "@strapi/blocks-react-renderer";
+
 export type ProductColor = {
   name: string;
   hexCode?: string;
@@ -14,6 +16,7 @@ export type Product = {
   mrp: number;
   image?: string;
   colors?: ProductColor[];
+  description?: BlocksContent;
   /** All product images, cover first (cover + CMS gallery). */
   images?: string[];
   sold?: number;

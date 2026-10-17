@@ -6,6 +6,7 @@ import { taka, topPicks } from "@/lib/data";
 import { getProductBySlug, getProducts, getAllProducts } from "@/lib/cms";
 import { ProductGallery } from "@/components/ProductGallery";
 import { DealCard } from "@/components/ProductCard";
+import { ProductDescription } from "@/components/ProductDescription";
 import { ProductPurchaseOptions } from "@/components/ProductPurchaseOptions";
 import { MetaPixelEvent } from "@/components/MetaPixel";
 
@@ -107,6 +108,10 @@ export default async function ProductPage({ params }: Props) {
             </ul>
           </div>
         </div>
+
+        {p.description && p.description.length > 0 && (
+          <ProductDescription content={p.description} />
+        )}
 
         {relatedToShow.length > 0 && (
           <section aria-labelledby="related" className="mt-10">
