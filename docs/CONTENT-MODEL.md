@@ -19,6 +19,7 @@ Collection: single type `settings` · draft & publish: yes (must be published to
 | `whatsapp` | string | International-format number for `wa.me/` links |
 | `address` | text | Footer address line |
 | `socials` | json | Array of `{ label, url, icon? }` — footer badges |
+| `paymentMethods` | repeatable component | no | `{ name, image, show }` entries for enabled footer payment logos |
 
 Seeded on boot with defaults (siteName "Pickenby", contact phone, etc.) when the
 entry does not exist. Consumed by the storefront via `lib/cms.ts` →

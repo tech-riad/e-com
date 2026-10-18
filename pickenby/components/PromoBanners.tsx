@@ -99,11 +99,10 @@ export function PromoBanners({ items }: { items?: BannerItem[] }) {
                     alt={b.brand}
                     fill
                     sizes="(min-width:640px) 300px, 48vw"
-                    className="object-cover opacity-30"
+                    
                   />
                 )}
-                <span className="relative text-2xl font-black tracking-tight">{b.brand}</span>
-                <span className="relative text-sm font-bold">{b.text}</span>
+                
               </a>
             </li>
           ))}

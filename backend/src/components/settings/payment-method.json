@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_settings_payment_methods",
+  "info": {
+    "displayName": "Payment method",
+    "description": "Payment logo shown in the storefront footer"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "show": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

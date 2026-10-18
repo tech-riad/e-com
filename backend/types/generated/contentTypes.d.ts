@@ -716,6 +716,7 @@ export interface ApiSettingSetting extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     logo: Schema.Attribute.Media<'images'>;
+    paymentMethods: Schema.Attribute.Component<'settings.payment-method', true>;
     publishedAt: Schema.Attribute.DateTime;
     siteName: Schema.Attribute.String;
     socials: Schema.Attribute.JSON;

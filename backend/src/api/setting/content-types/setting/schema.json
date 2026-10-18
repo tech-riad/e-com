@@ -47,6 +47,11 @@
     },
     "socials": {
       "type": "json"
+    },
+    "paymentMethods": {
+      "type": "component",
+      "repeatable": true,
+      "component": "settings.payment-method"
     }
   }
 }

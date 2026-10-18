@@ -60,6 +60,7 @@ type SettingAttr = {
   whatsapp?: string;
   address?: string;
   socials?: { label?: string; url?: string; icon?: string }[] | null;
+  paymentMethods?: { name?: string; show?: boolean; image?: unknown }[] | null;
 };
 
 export type Category = {
@@ -505,6 +506,7 @@ export type SiteSetting = {
   logoHeight?: number;
   favicon?: string;
   socials?: { label: string; url: string; icon?: string }[];
+  paymentMethods?: { name: string; image: string }[];
 };
 
 /** Site-wide settings (single type). Returns null when offline/unpublished. */
@@ -512,6 +514,7 @@ export async function getSiteSettings(): Promise<SiteSetting | null> {
   const row = await fetchOne<SettingAttr>("/setting", {
     "populate[logo]": true,
     "populate[favicon]": true,
+    "populate[paymentMethods][populate][image]": true,
   });
   if (!row) return null;
   return {
@@ -533,6 +536,15 @@ export async function getSiteSettings(): Promise<SiteSetting | null> {
           icon: s.icon,
         }))
       : undefined,
+      paymentMethods: Array.isArray(row.paymentMethods) && row.paymentMethods.length > 0
+        ? row.paymentMethods
+            .filter((method) => method.show !== false && typeof method.name === "string" && method.name.trim().length > 0)
+            .map((method) => ({
+              name: method.name!.trim(),
+              image: getStrapiMediaUrl(method.image) ?? "",
+            }))
+            .filter((method) => method.image.length > 0)
+        : undefined,
   };
 }
 

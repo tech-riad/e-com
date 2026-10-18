@@ -40,6 +40,7 @@ export function Footer({ settings }: { settings?: SiteSetting }) {
           url: s.url || "#",
         }))
       : socialLabels.map((s) => ({ label: s, url: "#" }));
+  const paymentMethods = settings?.paymentMethods ?? payments.map((name) => ({ name, image: "" }));
 
   return (
     <footer className="mt-8">
@@ -78,8 +79,19 @@ export function Footer({ settings }: { settings?: SiteSetting }) {
           <div>
             <h3 className="text-sm font-bold text-white">We accept</h3>
             <ul className="mt-3 grid grid-cols-3 gap-1">
-              {payments.map((p) => (
-                <li key={p} className="grid h-8 place-items-center rounded bg-white px-1 text-[9px] font-bold text-slate-600">{p}</li>
+              {paymentMethods.map((method, index) => (
+                <li key={`${method.name}-${index}`} className="grid h-10 place-items-center rounded bg-white px-2">
+                  {method.image ? (
+                    <img
+                      src={method.image}
+                      alt={method.name}
+                      title={method.name}
+                      className="max-h-7 max-w-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-center text-[9px] font-bold text-slate-600">{method.name}</span>
+                  )}
+                </li>
               ))}
             </ul>
           </div>
