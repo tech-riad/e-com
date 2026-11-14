@@ -16,7 +16,6 @@ export function Brands({ items }: { items?: BrandItem[] }) {
   const brands: BrandItem[] = cms.length > 0
     ? cms
     : featuredBrands.map((name) => ({ name, slug: name.toLowerCase() }));
-  console.log("Total brands:", brands.length);
 
   const visible = expanded ? brands : brands.slice(0, 10);
   const hiddenCount = Math.max(0, brands.length - 10);
@@ -28,27 +27,35 @@ export function Brands({ items }: { items?: BrandItem[] }) {
         <h2 id="brands" className="mt-1 text-xl font-extrabold">Pick Your Top Brands Shop</h2>
         <p className="mt-1 text-xs text-muted">100+ world-renowned brands — imported, stocked, and fully serviced by us.</p>
 
-        <ul className="mx-auto mt-3 grid max-w-5xl grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <ul className="mx-auto mt-4 grid max-w-5xl grid-cols-2 gap-2 sm:grid-cols-4">
           {visible.map((b) => {
             const image = b.image && !failedImages[b.slug] ? b.image : undefined;
             return (
-              <li key={b.slug}>
-                <Link href={`/brands/${b.slug}`} className="flex h-28 flex-col items-center justify-center gap-1 rounded-2xl bg-white p-2 shadow-card transition hover:shadow-float">
+              <li key={b.slug} className="min-w-0">
+                <Link
+                  href={`/brands/${b.slug}`}
+                  className="group relative block aspect-[1.6/1] overflow-hidden rounded-2xl bg-slate-200 shadow-card"
+                >
                   {image ? (
                     <Image
                       src={image}
-                      alt={`${b.name} logo`}
+                      alt={`${b.name}`}
                       width={240}
                       height={120}
-                      className="h-16 w-full object-contain"
+                      sizes="(max-width: 639px) 82vw, (max-width: 1023px) 46vw, 32vw"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       onError={() => setFailedImages((failed) => ({ ...failed, [b.slug]: true }))}
                     />
                   ) : (
-                    <span aria-hidden="true" className="flex h-16 w-full shrink-0 items-center justify-center rounded-lg bg-slate-50 text-2xl font-extrabold text-brand-200">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 grid place-items-center bg-gradient-to-br from-brand-800 via-brand-700 to-slate-700 text-6xl font-extrabold text-white/25"
+                    >
                       {b.name.slice(0, 1).toUpperCase()}
                     </span>
                   )}
-                  <span className="line-clamp-2 max-w-full text-[10px] font-bold leading-tight text-ink">
+                  <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <span className="absolute bottom-0 left-0 line-clamp-2 max-w-full px-3 pb-3 text-left text-sm font-extrabold leading-tight text-white drop-shadow-sm">
                     {b.name}
                   </span>
                 </Link>

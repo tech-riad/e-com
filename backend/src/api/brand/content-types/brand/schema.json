@@ -5,7 +5,7 @@
     "singularName": "brand",
     "pluralName": "brands",
     "displayName": "Brand",
-    "description": "Product brands shown in the brand strip"
+    "description": "Product brands shown in the brand strip. Upload card images at exactly 800 x 500 pixels."
   },
   "options": {
     "draftAndPublish": true
@@ -23,6 +23,12 @@
       "required": true
     },
     "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "cardImage": {
       "type": "media",
       "multiple": false,
       "required": false,

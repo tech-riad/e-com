@@ -5,7 +5,7 @@ import type { Product } from "./data";
 
 type MediaAttr = { url?: string } | null;
 
-type BrandAttr = { id: number; name: string; slug?: string; logo?: unknown };
+type BrandAttr = { id: number; name: string; slug?: string; logo?: unknown; cardImage?: unknown };
 type CategoryAttr = {
   id: number;
   label: string;
@@ -404,12 +404,12 @@ export async function getBrandsWithSlugs(): Promise<{ name: string; slug: string
   const rows = await fetchAPI<BrandAttr>("/brands", {
     "pagination[pageSize]": 100,
     "sort[0]": "name:asc",
-    "populate[logo]": true,
+    "populate[cardImage]": true,
   });
   return rows.map((b) => ({
     name: b.name,
     slug: b.slug ?? slugify(b.name),
-    image: getBrandLogoUrl(b.logo),
+    image: getBrandLogoUrl(b.cardImage),
   }));
 }
 

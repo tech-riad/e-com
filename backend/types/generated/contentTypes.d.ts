@@ -446,7 +446,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiBrandBrand extends Struct.CollectionTypeSchema {
   collectionName: 'brands';
   info: {
-    description: 'Product brands shown in the brand strip';
+    description: 'Product brands shown in the brand strip. Upload card images at exactly 800 x 500 pixels.';
     displayName: 'Brand';
     pluralName: 'brands';
     singularName: 'brand';
@@ -455,6 +455,7 @@ export interface ApiBrandBrand extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    cardImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

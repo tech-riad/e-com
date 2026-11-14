@@ -53,6 +53,7 @@ Collection: `brands` · draft & publish: yes
 | `name` | string | yes (unique) | Display name |
 | `slug` | uid (from `name`) | yes | URL slug |
 | `logo` | media | no | Brand image |
+| `cardImage` | media | no | Brand Shop tile image; upload exactly `800 × 500 px` |
 | `featured` | boolean | no (default `false`) | Not used by frontend yet |
 | `products` | relation (oneToMany) | no | Products for this brand |
 
